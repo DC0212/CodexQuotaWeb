@@ -439,11 +439,12 @@ function formatDecimal(value, digits = 2) {
 }
 
 function formatUsd(value) {
+  const digits = Number(value) >= 100 ? 0 : 2;
   return new Intl.NumberFormat(state.language === "zh" ? "zh-CN" : "en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: Number(value) >= 100 ? 0 : 2,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   }).format(Number(value) || 0);
 }
 
