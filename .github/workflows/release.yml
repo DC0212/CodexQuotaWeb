@@ -1,0 +1,29 @@
+name: Package release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build download archives
+        run: |
+          mkdir -p dist/codex-meter
+          cp -r src public start.bat start.command package.json README.md README.zh-CN.md LICENSE dist/codex-meter/
+          chmod +x dist/codex-meter/start.command
+          cd dist
+          zip -r codex-meter.zip codex-meter
+          tar -czf codex-meter.tar.gz codex-meter
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/codex-meter.zip
+            dist/codex-meter.tar.gz

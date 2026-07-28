@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Private local dashboard for Codex token usage, models, API-equivalent value, and quota estimates."
+    />
+    <title>Codex Meter · Local usage dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/daily-chart.css" />
+    <link rel="stylesheet" href="/refined-ui.css" />
+    <link rel="stylesheet" href="/light-theme.css" />
+    <link rel="stylesheet" href="/soft-light.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Codex Meter home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>CODEX <b>METER</b></span>
+        </a>
+        <div class="top-actions">
+          <button id="language-toggle" class="text-button" type="button">EN</button>
+          <span id="connection-pill" class="connection-pill waiting">
+            <span class="status-dot"></span>
+            <span data-i18n="connecting">正在连接</span>
+          </span>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="eyebrow">LIVE LOCAL TELEMETRY · 实时本地监测</p>
+          <h1 data-i18n="headline">你的 Codex 用量，<br />终于有数。</h1>
+          <p class="lede" data-i18n="lede">
+            每个 token、当前模型、API 等值成本与本周剩余额度，在同一处持续刷新。
+          </p>
+          <div class="hero-meta">
+            <span><i class="shield-icon">✓</i><span data-i18n="private">数据只留在本机</span></span>
+            <span><i class="pulse-icon"></i><span id="last-updated">—</span></span>
+          </div>
+        </div>
+
+        <div class="quota-orbit">
+          <div id="quota-ring" class="quota-ring" style="--used: 0">
+            <div class="quota-inner">
+              <span data-i18n="remaining">剩余额度</span>
+              <strong id="remaining-percent">—</strong>
+              <small id="quota-window">7 DAY WINDOW</small>
+            </div>
+          </div>
+          <div class="orbit-label orbit-top">
+            <span data-i18n="resets">重置于</span>
+            <strong id="reset-time">—</strong>
+          </div>
+          <div class="orbit-label orbit-bottom">
+            <span data-i18n="plan">账户方案</span>
+            <strong id="plan-type">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="metric-grid" aria-label="Usage summary">
+        <article class="metric-card primary">
+          <div class="metric-label">
+            <span data-i18n="todayTokens">今日 TOKEN</span>
+            <span class="metric-index">01</span>
+          </div>
+          <strong id="today-tokens">—</strong>
+          <div class="metric-foot">
+            <span id="today-requests">—</span>
+            <span class="spark-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">
+            <span data-i18n="activeModel">当前模型</span>
+            <span class="metric-index">02</span>
+          </div>
+          <strong id="active-model" class="model-value">—</strong>
+          <div class="metric-foot">
+            <span id="reasoning-effort">—</span>
+            <span class="live-badge" data-i18n="detected">已检测</span>
+          </div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">
+            <span data-i18n="apiValue">今日 API 等值</span>
+            <span class="metric-index">03</span>
+          </div>
+          <strong id="today-value">—</strong>
+          <div class="metric-foot">
+            <span id="today-credits">—</span>
+            <span data-i18n="estimate">估算</span>
+          </div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">
+            <span data-i18n="sessionTokens">当前任务</span>
+            <span class="metric-index">04</span>
+          </div>
+          <strong id="session-tokens">—</strong>
+          <div class="metric-foot">
+            <span id="session-value">—</span>
+            <span id="session-count">—</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="analysis-grid">
+        <article class="panel chart-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker" data-i18n="dailyTrendKicker">DAILY CONSUMPTION</p>
+              <h2 data-i18n="dailyTrend">每日消耗趋势</h2>
+            </div>
+            <div class="legend">
+              <span><i class="legend-uncached"></i><span data-i18n="uncachedInput">非缓存输入</span></span>
+              <span><i class="legend-cached"></i><span data-i18n="cachedInput">缓存输入</span></span>
+              <span><i class="legend-output"></i><span data-i18n="output">输出</span></span>
+            </div>
+          </div>
+          <div class="chart-body">
+            <div class="chart-stage-scroll">
+              <div id="usage-chart" class="usage-chart" aria-label="Daily token chart"></div>
+            </div>
+            <aside id="daily-detail" class="daily-detail" aria-live="polite">
+              <div class="detail-heading">
+                <span data-i18n="selectedDay">Selected date</span>
+                <strong id="detail-date">-</strong>
+              </div>
+              <div class="detail-total">
+                <span data-i18n="dayTotal">TOTAL TOKENS</span>
+                <strong id="detail-total">-</strong>
+              </div>
+              <div class="detail-breakdown">
+                <div class="detail-row">
+                  <div class="detail-row-label">
+                    <span><i class="legend-uncached"></i><span data-i18n="uncachedInput">Uncached input</span></span>
+                    <b id="detail-uncached-value">-</b>
+                  </div>
+                  <div class="detail-bar"><i id="detail-uncached-bar" class="uncached"></i></div>
+                  <small id="detail-uncached-percent">-</small>
+                </div>
+                <div class="detail-row">
+                  <div class="detail-row-label">
+                    <span><i class="legend-cached"></i><span data-i18n="cachedInput">Cached input</span></span>
+                    <b id="detail-cached-value">-</b>
+                  </div>
+                  <div class="detail-bar"><i id="detail-cached-bar" class="cached"></i></div>
+                  <small id="detail-cached-percent">-</small>
+                </div>
+                <div class="detail-row">
+                  <div class="detail-row-label">
+                    <span><i class="legend-output"></i><span data-i18n="output">Output</span></span>
+                    <b id="detail-output-value">-</b>
+                  </div>
+                  <div class="detail-bar"><i id="detail-output-bar" class="output"></i></div>
+                  <small id="detail-output-percent">-</small>
+                </div>
+              </div>
+              <div class="detail-meta">
+                <span><small data-i18n="apiEquivalent">API equivalent</small><b id="detail-usd">-</b></span>
+                <span><small data-i18n="modelResponses">Model responses</small><b id="detail-requests">-</b></span>
+              </div>
+              <p data-i18n="clickHint">Click a date column to inspect its details.</p>
+            </aside>
+          </div>
+          <div class="chart-summary">
+            <span><b id="period-total">—</b><small data-i18n="periodTotal">近 14 天</small></span>
+            <span><b id="cache-rate">—</b><small data-i18n="cacheRate">缓存命中占比</small></span>
+            <span><b id="priced-rate">—</b><small data-i18n="pricedCoverage">可计价覆盖率</small></span>
+          </div>
+          <section class="day-breakdowns">
+            <div class="breakdown-block">
+              <div class="breakdown-heading">
+                <div>
+                  <p class="panel-kicker" data-i18n="activityKicker">ACTIVE WINDOWS</p>
+                  <h3 data-i18n="activityTitle">Active usage periods</h3>
+                </div>
+                <small data-i18n="activityRule">Split after 30 inactive minutes</small>
+              </div>
+              <div id="activity-window-list" class="activity-window-list"></div>
+            </div>
+            <div class="breakdown-block source-block">
+              <div class="breakdown-heading">
+                <div>
+                  <p class="panel-kicker" data-i18n="sourceKicker">PROJECT / CHAT</p>
+                  <h3 data-i18n="sourceTitle">Usage by project and chat</h3>
+                </div>
+                <small data-i18n="sourcePrivacy">Uses local labels only</small>
+              </div>
+              <div id="source-list" class="source-list"></div>
+            </div>
+          </section>
+        </article>
+
+        <article class="panel estimate-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker" data-i18n="quotaKicker">QUOTA INFERENCE</p>
+              <h2 data-i18n="quotaEstimate">账号总额度推算</h2>
+            </div>
+            <span id="confidence-badge" class="confidence">—</span>
+          </div>
+          <div class="estimate-hero">
+            <span data-i18n="mixEquivalent">按本窗口实际用量结构约合</span>
+            <strong id="total-quota-tokens">—</strong>
+            <small>tokens</small>
+          </div>
+          <div class="estimate-scale">
+            <div class="scale-track"><i id="scale-fill"></i></div>
+            <div class="scale-labels">
+              <span><b id="used-quota-label">—</b><small data-i18n="used">已用</small></span>
+              <span class="align-right"><b id="remaining-quota-tokens">—</b><small data-i18n="remainingTokens">预计剩余 token</small></span>
+            </div>
+          </div>
+          <div class="estimate-details">
+            <div><span data-i18n="estimateRange">估算区间</span><strong id="quota-range">—</strong></div>
+            <div><span data-i18n="observedCredits">本机已观测 credits</span><strong id="observed-credits">—</strong></div>
+          </div>
+          <p id="quota-caveat" class="caveat" data-i18n="quotaDefaultCaveat">
+            总 token 不是固定值；不同模型和输入/输出类型消耗权重不同。
+          </p>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="panel mix-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker" data-i18n="tokenMixKicker">TOKEN COMPOSITION</p>
+              <h2 data-i18n="tokenMix">今日 Token 构成</h2>
+            </div>
+          </div>
+          <div class="donut-layout">
+            <div id="token-donut" class="token-donut">
+              <div><strong id="donut-total">—</strong><span data-i18n="total">合计</span></div>
+            </div>
+            <div class="mix-list">
+              <div><i class="legend-uncached"></i><span data-i18n="uncachedInput">非缓存输入</span><b id="mix-uncached">—</b></div>
+              <div><i class="legend-cached"></i><span data-i18n="cachedInput">缓存输入</span><b id="mix-cached">—</b></div>
+              <div><i class="legend-output"></i><span data-i18n="output">输出</span><b id="mix-output">—</b></div>
+              <div><i class="legend-reasoning"></i><span data-i18n="reasoningSubset">其中推理输出</span><b id="mix-reasoning">—</b></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel model-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker" data-i18n="modelBreakdownKicker">MODEL BREAKDOWN</p>
+              <h2 data-i18n="modelBreakdown">今日模型分布</h2>
+            </div>
+          </div>
+          <div id="model-list" class="model-list">
+            <div class="empty-state" data-i18n="waitingData">等待 Codex 用量数据…</div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>
+          <span data-i18n="footerPrivacy">只读取本机 Codex 会话中的汇总计数字段，不读取、不保存、不上传提示词或回复正文。</span>
+        </p>
+        <p>
+          <span data-i18n="pricingAsOf">价格口径更新于</span>
+          <a id="pricing-link" href="https://developers.openai.com/api/docs/models/compare" target="_blank" rel="noreferrer">—</a>
+          · <span data-i18n="notInvoice">美元金额为 API 公开价等值估算，并非订阅账单。</span>
+        </p>
+      </footer>
+    </main>
+
+    <div id="error-toast" class="error-toast" role="alert"></div>
+    <script src="/refined-ui.js"></script>
+    <script type="module" src="/app.js?v=2"></script>
+  </body>
+</html>

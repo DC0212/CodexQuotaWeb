@@ -1,0 +1,37 @@
+{
+  "name": "codex-meter",
+  "version": "0.1.0",
+  "description": "A private, local-first dashboard for Codex token usage, models, API-equivalent cost, and quota estimates.",
+  "type": "module",
+  "main": "src/server.js",
+  "bin": {
+    "codex-meter": "src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "start:no-open": "node src/server.js --no-open",
+    "test": "node --test",
+    "check": "node --check src/server.js && node --check src/codex-reader.js && node --check src/usage-breakdowns.js && node --check src/pricing.js && node --check public/app.js && node --check public/daily-chart.js && node --check public/refined-ui.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "codex",
+    "openai",
+    "tokens",
+    "usage",
+    "dashboard",
+    "quota"
+  ],
+  "license": "MIT",
+  "files": [
+    "src",
+    "public",
+    "start.bat",
+    "start.command",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ]
+}

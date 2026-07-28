@@ -1,0 +1,304 @@
+:root {
+  --bg: #e7ecec;
+  --panel: rgba(245, 247, 245, 0.96);
+  --panel-solid: #f4f6f4;
+  --line: #d2dadd;
+  --text: #28343f;
+  --muted: #687784;
+  --accent: #3d7f90;
+  --accent-soft: #316e7c;
+  --lime: #789458;
+  --blue: #5d7fa8;
+  --purple: #8777a2;
+  --series-uncached: #c77b68;
+  --series-cached: #5d7fa8;
+  --series-output: #789458;
+  --shadow: 0 16px 38px rgba(69, 82, 91, 0.09);
+}
+
+body {
+  background:
+    radial-gradient(circle at 14% -8%, rgba(103, 153, 164, 0.12), transparent 30rem),
+    radial-gradient(circle at 90% 12%, rgba(135, 119, 162, 0.07), transparent 25rem),
+    linear-gradient(180deg, #eef2f0 0%, #e9eeed 52%, #e4eaeb 100%);
+}
+
+body::before {
+  background-image:
+    linear-gradient(rgba(94, 111, 122, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 111, 122, 0.04) 1px, transparent 1px);
+}
+
+.ambient {
+  opacity: 0.045;
+}
+
+.topbar {
+  border-bottom-color: #d2dadd;
+}
+
+.brand,
+h1,
+.panel-heading h2,
+.breakdown-heading h3,
+.metric-card > strong,
+.detail-total strong,
+.quota-inner strong,
+.orbit-label strong,
+.chart-summary b,
+.estimate-hero strong,
+.scale-labels b,
+.estimate-details strong,
+.activity-time strong,
+.activity-value strong,
+.source-project-heading strong,
+.source-thread-label strong,
+.source-thread > b,
+.token-donut strong,
+.mix-list b,
+.model-name strong,
+.model-values b {
+  color: var(--text);
+}
+
+.eyebrow,
+.panel-kicker,
+.brand b,
+footer a,
+.source-project-heading span {
+  color: var(--accent-soft);
+}
+
+.lede,
+.hero-meta,
+.metric-label,
+.metric-foot,
+.metric-index,
+.detail-heading span,
+.detail-total span,
+.detail-row small,
+.detail-meta small,
+.daily-detail > p,
+.breakdown-heading > small,
+.activity-time small,
+.activity-value small,
+.activity-visual small,
+.source-thread-label small,
+.estimate-hero span,
+.estimate-hero small,
+.scale-labels small,
+.estimate-details span,
+.token-donut span,
+.mix-list,
+.model-name small,
+.model-values small,
+.empty-state,
+footer {
+  color: var(--muted);
+}
+
+.brand-mark {
+  border-color: rgba(61, 127, 144, 0.3);
+  background: rgba(103, 153, 164, 0.08);
+}
+
+.text-button {
+  border-color: #cfd8dc;
+  background: rgba(244, 246, 244, 0.92);
+  color: #586a76;
+  box-shadow: 0 4px 12px rgba(69, 82, 91, 0.045);
+}
+
+.text-button:hover,
+.text-button:focus-visible {
+  border-color: rgba(61, 127, 144, 0.4);
+  background: #f7f8f6;
+  color: var(--text);
+}
+
+.connection-pill {
+  border-color: rgba(120, 148, 88, 0.24);
+  background: rgba(120, 148, 88, 0.1);
+  color: #58713d;
+}
+
+.status-dot {
+  background: #789458;
+  box-shadow: 0 0 0 4px rgba(120, 148, 88, 0.12);
+}
+
+.shield-icon {
+  border-color: rgba(120, 148, 88, 0.3);
+  background: rgba(120, 148, 88, 0.07);
+  color: #58713d;
+}
+
+.pulse-icon {
+  background: #5d98a7;
+  box-shadow: 0 0 0 5px rgba(93, 152, 167, 0.1);
+}
+
+.quota-ring {
+  background:
+    radial-gradient(circle at center, #f5f7f5 60%, transparent 61%),
+    conic-gradient(var(--accent) calc(var(--used) * 1%), #d4dddf 0);
+  box-shadow:
+    inset 0 0 28px rgba(93, 152, 167, 0.045),
+    0 0 0 1px rgba(61, 127, 144, 0.07),
+    0 14px 30px rgba(69, 82, 91, 0.1);
+}
+
+.quota-ring::after {
+  border-color: rgba(61, 127, 144, 0.16);
+}
+
+.quota-inner span,
+.quota-inner small {
+  color: #6b7983;
+}
+
+.orbit-label {
+  border-color: #d2dadd;
+  border-left-color: var(--accent);
+  background: rgba(245, 247, 245, 0.94);
+  box-shadow: 0 7px 18px rgba(69, 82, 91, 0.055);
+}
+
+.orbit-label span {
+  color: #71808a;
+}
+
+.metric-card {
+  border-color: #d2dadd;
+  background:
+    linear-gradient(150deg, rgba(103, 153, 164, 0.025), transparent 48%),
+    rgba(245, 247, 245, 0.96);
+  box-shadow: 0 10px 24px rgba(69, 82, 91, 0.055);
+}
+
+.metric-card.primary {
+  border-color: rgba(61, 127, 144, 0.28);
+  background:
+    linear-gradient(145deg, rgba(103, 153, 164, 0.12), rgba(103, 153, 164, 0.025) 62%),
+    #f5f7f5;
+}
+
+.live-badge {
+  border-color: rgba(120, 148, 88, 0.24);
+  background: rgba(120, 148, 88, 0.09);
+  color: #58713d;
+}
+
+.panel {
+  border-color: #d2dadd;
+  background:
+    linear-gradient(145deg, rgba(103, 153, 164, 0.018), transparent 38%),
+    rgba(245, 247, 245, 0.97);
+}
+
+.legend,
+.chart-summary,
+.estimate-details > div {
+  border-color: #d2dadd;
+  background: #eef2f1;
+}
+
+.chart-body .usage-chart {
+  border-bottom-color: #d0d9dd;
+  background-image: linear-gradient(to bottom, rgba(94, 111, 122, 0.13) 1px, transparent 1px);
+}
+
+.chart-body .chart-column:hover,
+.chart-body .chart-column:focus-visible {
+  background: rgba(103, 153, 164, 0.08);
+}
+
+.chart-body .chart-column.selected {
+  background: rgba(103, 153, 164, 0.11);
+  box-shadow: inset 0 0 0 1px rgba(61, 127, 144, 0.3);
+}
+
+.chart-total-label,
+.chart-body .chart-label {
+  color: #657580;
+}
+
+.chart-column.selected .chart-total-label,
+.chart-column.selected .chart-label {
+  color: #2f6673;
+}
+
+.chart-stack,
+.detail-bar,
+.scale-track,
+.model-bar,
+.stacked-track {
+  background: #dce3e4;
+}
+
+.daily-detail {
+  border-color: rgba(61, 127, 144, 0.2);
+  background:
+    linear-gradient(155deg, rgba(103, 153, 164, 0.085), transparent 50%),
+    #f0f4f2;
+}
+
+.detail-heading,
+.detail-meta,
+.day-breakdowns,
+.breakdown-block + .breakdown-block {
+  border-color: #d2dadd;
+}
+
+.estimate-panel {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(135, 119, 162, 0.085), transparent 16rem),
+    linear-gradient(155deg, rgba(103, 153, 164, 0.045), transparent 52%),
+    #f5f7f5;
+}
+
+.confidence {
+  border-color: rgba(135, 119, 162, 0.24);
+  background: rgba(135, 119, 162, 0.09);
+  color: #6d5c89;
+}
+
+.caveat {
+  border-left-color: rgba(61, 127, 144, 0.48);
+  color: #657681;
+}
+
+.activity-window,
+.source-project {
+  border-color: #d2dadd;
+  background: #eff3f1;
+}
+
+.source-project-heading {
+  border-bottom-color: #d2dadd;
+  background: rgba(103, 153, 164, 0.075);
+}
+
+.source-thread,
+.mix-list > div,
+.model-row {
+  border-bottom-color: #d9e0e2;
+}
+
+.token-donut {
+  background:
+    radial-gradient(circle at center, #f5f7f5 57%, transparent 58%),
+    conic-gradient(
+      var(--series-uncached) 0 calc(var(--uncached) * 1%),
+      var(--series-cached) 0 calc(var(--cached) * 1%),
+      var(--series-output) 0
+    );
+  box-shadow: 0 0 0 1px #d2dadd;
+}
+
+.error-toast {
+  border-color: rgba(199, 123, 104, 0.3);
+  background: #f3e9e5;
+  color: #8d4e3f;
+  box-shadow: 0 12px 28px rgba(69, 82, 91, 0.12);
+}
