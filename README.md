@@ -1,6 +1,8 @@
-# Codex Meter
+# CodexQuotaWeb
 
-A private, local-first dashboard for Codex token usage, active models, API-equivalent value, credits, remaining usage, and quota estimates.
+CodexQuotaWeb is a private, local-first web dashboard for Codex token usage, active models, API-equivalent value, credits, remaining usage, and quota estimates. It runs on your computer and opens in your normal web browser.
+
+> This is a local web app, not a cloud-hosted service or native desktop client. The included start script launches a small Node.js server bound to `127.0.0.1`, and the browser only talks to that local server.
 
 > This is not an official OpenAI product. USD values are API list-price equivalents, not ChatGPT/Codex subscription invoices.
 
@@ -8,15 +10,29 @@ A private, local-first dashboard for Codex token usage, active models, API-equiv
 
 - Refreshes current-task and daily usage every two seconds
 - Separates uncached input, cached input, output, and reasoning output
+- Shows dates and totals directly on the 14-day stacked trend chart
+- Opens a detailed breakdown when a day is selected
+- Groups each day into active usage periods after 30 inactive minutes
+- Attributes local usage to project folders and chat titles when metadata is available
 - Detects the active model and reasoning effort
 - Estimates public API-equivalent USD value and Codex credits
 - Reads Codex usage percentage, window, and reset time
 - Estimates total and remaining token capacity using the observed usage mix
-- Shows a 14-day trend and today's model mix
+- Shows today's token and model mix
 - Chinese and English UI
 - Binds to `127.0.0.1`; data stays on the device
+- Responsive, soft-light browser interface
+
+## How the local web app works
+
+1. `start.bat` or `start.command` starts the bundled Node.js web server.
+2. The server reads aggregate counters from the local Codex data directory.
+3. Your browser opens `http://127.0.0.1:7373` and refreshes the dashboard from that local server.
+
+The page is not published to the internet, does not need a remote database, and has no runtime package dependencies.
 
 ## Quick start
+
 
 Requires [Node.js 18+](https://nodejs.org/). There are no runtime dependencies and no install step.
 
