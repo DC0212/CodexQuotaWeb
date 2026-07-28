@@ -16,7 +16,7 @@ jobs:
       - name: Build download archives
         run: |
           mkdir -p dist/codex-meter
-          cp -r src public start.bat start.command package.json README.md README.zh-CN.md LICENSE dist/codex-meter/
+          cp -r src public docs start.bat start.command package.json README.md README.en.md LICENSE dist/codex-meter/
           chmod +x dist/codex-meter/start.command
           cd dist
           zip -r codex-meter.zip codex-meter
